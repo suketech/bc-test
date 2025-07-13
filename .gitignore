@@ -5,6 +5,8 @@ coverage.json
 typechain
 typechain-types
 
+scripts/git-push.sh
+
 # Hardhat files
 cache
 artifacts

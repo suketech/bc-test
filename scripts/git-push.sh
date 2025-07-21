@@ -1,6 +1,6 @@
 #!/bin/bash
 # Git push helper script using GitHub token from .env
-cd /home/sk-gamma/projects/bc-test/scripts
+cd /home/sk-gamma/projects/bc-test
 
 # Load environment variables
 source .env

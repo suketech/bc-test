@@ -1,22 +1,20 @@
 #!/bin/bash
-# Git push helper script using GitHub token from .env
-cd /home/sk-gamma/projects/bc-test
+set -euo pipefail
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export GIT_TERMINAL_PROMPT=0
 
-# Load environment variables
-source .env
+# スクリプトのディレクトリを基準に .env を読む
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$SCRIPT_DIR/../.env"
 
-if [ -z "$GITHUB_TOKEN" ]; then
-    echo "Error: GITHUB_TOKEN not found in .env file"
-    exit 1
-fi
+# 必須変数チェック
+: "${BC_TEST_REPO_ROOT:?BC_TEST_REPO_ROOT not set}"
+: "${GITHUB_TOKEN:?GITHUB_TOKEN not set}"
 
-# Set remote URL with token
-git remote set-url origin https://${GITHUB_TOKEN}@github.com/suketech/bc-test.git
+cd "$BC_TEST_REPO_ROOT"
 
-# Push to GitHub
-git push -u origin main
+PUSH_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/suketech/bc-test.git"
 
-# Remove token from remote URL for security
-git remote set-url origin https://github.com/suketech/bc-test.git
-
+git push "$PUSH_URL" HEAD:main --force
 echo "Push completed successfully!"
+
